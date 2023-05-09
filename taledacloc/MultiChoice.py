@@ -96,10 +96,7 @@ class MultiChoiceUtils(Utils):
     
     def assertSuccess(self):pass
 
-    def isError(self, number, at, error_message):
-        """
-            Grade set, but the Answer is blank
-        """
+    def isError(self, choice_number, at, error_message):
         error = None
         if at == 0:
             at = "answer"
@@ -107,9 +104,11 @@ class MultiChoiceUtils(Utils):
             at = "fraction"
 
         try:
-            error = self.driver.find_element(By.ID, f"id_error_{at}_{number-1}")
+            error = self.driver.find_element(By.ID, f"id_error_{at}_{choice_number-1}")
         except NoSuchElementException:
             return False
+        
+        print(error.text)
 
         if error.text.find(error_message) != -1:
             return True
@@ -140,6 +139,8 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
 
     def test_001_002(self):
         self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, None, 100)
+        self.setChoice(3, None, 100)
         self.saveChanges()
 
         expected = self.isError(2, 0, "This type of question requires at least 2 choices")
@@ -148,10 +149,155 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
 
     def test_001_003(self):
         self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
-        self.setChoice(2, None, 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.setChoice(3, None, 100)
         self.saveChanges()
 
-        expected = self.isError(2, 1, "Grade set, but the Answer is blank")
+        expected = self.isError(3, 1, "Grade set, but the Answer is blank")
+        self.driver.quit()
+        assert expected
+    
+    def test_001_004(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
+        self.driver.quit()
+        assert expected
+
+    def test_001_005(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 0)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", -50)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 50)
+        self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", -100)
+        self.saveChanges()
+
+        expected = self.isError(1, 1, """One of the choices should be 100%, so that it is\npossible to get a full grade for this question.""")
+        self.driver.quit()
+        assert expected
+
+    def test_001_006(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", -50)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 50)
+        self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", -100)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
+        self.driver.quit()
+        assert expected
+
+    def test_001_007(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", -50)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 50)
+        self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
+        self.driver.quit()
+        assert expected
+
+    def test_001_008(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
+        self.driver.quit()
+        assert expected
+
+    def test_001_009(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, None, 0)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+        expected = self.isError(2, 0, "This type of question requires at least 2 choices")
+        self.driver.quit()
+        assert expected
+
+    def test_001_010(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 50)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 50)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", -50)
+        self.saveChanges()
+
+        expected = self.isError(1, 1, "One of the choices should be 100%, so that it is\npossible to get a full grade for this question.")
+        self.driver.quit()
+        assert expected
+
+    def test_001_011(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 50)
+        self.setChoice(2, None, 0)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+        expected = self.isError(1, 1, "One of the choices should be 100%, so that it is\npossible to get a full grade for this question.") \
+                and self.isError(2, 0, "This type of question requires at least 2 choices")
+        self.driver.quit()
+        assert expected
+
+    def test_001_012(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
+        self.driver.quit()
+        assert expected
+
+    def test_001_013(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 50)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal.", 50)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+        expected = self.isError(1, 1, "One of the choices should be 100%, so that it is\npossible to get a full grade for this question.")
+        self.driver.quit()
+        assert expected
+
+    def test_001_014(self):
+        self.setChoice(1, None, 0)
+        self.setChoice(2, None, 0)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+
+        expected = self.isError(1, 1, "One of the choices should be 100%, so that it is\npossible to get a full grade for this question.") \
+                and self.isError(2, 0, "This type of question requires at least 2 choices")
+        self.driver.quit()
+        assert expected
+
+    def test_001_015(self):
+        self.setChoice(1, "Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths", 100)
+        self.setChoice(2, "Non-Functionalities of software applications are tested WITHOUT having knowledge of internal code structure, implementation details and internal paths.", 50)
+        self.setChoice(3, None, 0)
+        self.saveChanges()
+
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+        expected = curr_url.find(questions_url) == 0
+        print(curr_url)
         self.driver.quit()
         assert expected
         
