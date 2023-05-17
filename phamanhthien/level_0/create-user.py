@@ -7,6 +7,8 @@ import random
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait as wait
 
+# py -m unittest create-user.py
+
 
 def random_char(char_num):
     return ''.join(random.choice(string.ascii_lowercase) for _ in range(char_num))
