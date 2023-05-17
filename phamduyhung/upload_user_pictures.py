@@ -22,15 +22,20 @@ class UploadUserPictureUtils(Utils):
         upload_user_navigation.click()
 
         # Click "Choose a file..." button
-        wait = WebDriverWait(self.driver, 3)
-        choose_file_button = wait.until(EC.visibility_of_element_located((By.XPATH, '//button[text()="Choose a file..."]')))
+        # choose_file_button = wait.until(EC.visibility_of_element_located((By.XPATH, '//button[text()="Choose a file..."]')))
+        wait = WebDriverWait(self.driver, 10)
+        choose_file_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@class='btn btn-secondary fp-btn-choose' and @name='userfilechoose']")))
         choose_file_button.click()
 
         print("Hê lô woocs")
+        wait = WebDriverWait(self.driver, 5)
+        upload_a_file_link = wait.until(EC.visibility_of_element_located((By.ID, "id_submitbutton")))
+        upload_a_file_link.click()
+
 
         wait = WebDriverWait(self.driver, 5)
-        upload_a_file_link = wait.until(EC.visibility_of_element_located((By.PARTIAL_LINK_TEXT, "Upload a file")))
-        upload_a_file_link.click()
+        choose_file_attachment = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@type='file' and @name='repo_upload_file']")))
+        choose_file_attachment.click()
 
         print("Navigate to upload user pictures screen success")
     
