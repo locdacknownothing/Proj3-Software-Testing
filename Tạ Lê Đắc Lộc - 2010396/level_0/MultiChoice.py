@@ -92,7 +92,11 @@ class MultiChoiceUtils(Utils):
         save_changes.click()
         print("Save success")
     
-    def assertSuccess(self):pass
+    def isSuccess(self):
+        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
+        curr_url = self.driver.current_url
+
+        return questions_url in curr_url
 
     def isError(self, choice_number, at, error_message):
         error = None
@@ -128,10 +132,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 0)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -161,10 +162,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -186,10 +184,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", -100)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -200,10 +195,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(4, "Non-Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -213,10 +205,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(3, None, 0)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -257,10 +246,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(3, "Functionalities of software applications are tested WITH having knowledge of internal code structure, implementation details and internal paths.", 100)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
 
@@ -292,10 +278,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         self.setChoice(3, None, 0)
         self.saveChanges()
 
-        questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
-        curr_url = self.driver.current_url
-        expected = curr_url.find(questions_url) == 0
-        # print(curr_url)
+        expected = self.isSuccess()
         self.driver.quit()
         assert expected
         
