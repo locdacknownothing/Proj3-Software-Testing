@@ -12,9 +12,7 @@ class MultiChoiceUtils(Utils):
         except NoSuchElementException:
             isQuizExist = False
 
-        if isQuizExist:
-            print("Quiz exists")
-            return
+        if isQuizExist: return
         
         edit_mode = self.driver.find_element(By.CLASS_NAME, "custom-control-input")
         if not edit_mode.is_selected():
@@ -108,7 +106,7 @@ class MultiChoiceUtils(Utils):
         except NoSuchElementException:
             return False
         
-        print(error.text)
+        # print(error.text)
 
         if error.text.find(error_message) != -1:
             return True
@@ -133,7 +131,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -166,7 +164,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -191,7 +189,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -205,7 +203,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -218,7 +216,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -262,7 +260,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
 
@@ -297,7 +295,7 @@ class MultiChoiceTestCase(unittest.TestCase, MultiChoiceUtils):
         questions_url = "https://sandbox.moodledemo.net/mod/quiz/edit.php"
         curr_url = self.driver.current_url
         expected = curr_url.find(questions_url) == 0
-        print(curr_url)
+        # print(curr_url)
         self.driver.quit()
         assert expected
         
