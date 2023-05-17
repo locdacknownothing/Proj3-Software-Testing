@@ -84,6 +84,10 @@ class LettersDDT(Utils):
 
 
 
+class Test(LettersDDT):
+    def init(self):
+        super.init()
 
 if __name__ == '__main__':
     unittest.main()
+    test = Test()
