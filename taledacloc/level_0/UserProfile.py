@@ -65,7 +65,7 @@ class EditProfileUtils(Utils):
         except NoSuchElementException:
             return False
         
-        print(error.text)
+        # print(error.text)
         return self.error_message[error_idx] in error.text
     
     def isSuccess(self):
@@ -80,7 +80,7 @@ class EditProfileUtils(Utils):
         profile_url = "https://sandbox.moodledemo.net/user/profile.php"
         preference_url = "https://sandbox.moodledemo.net/user/preferences.php"
         curr_url = self.driver.current_url
-        print(curr_url)
+        # print(curr_url)
         return (profile_url in curr_url) or (preference_url in curr_url)
 
     def checkEmailChange(self):
