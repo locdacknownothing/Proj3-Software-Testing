@@ -4,6 +4,8 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
+# py create-user.py
+
 path = "ExcelFiles/data.xlsx"
 sheet = "create_user"
 
